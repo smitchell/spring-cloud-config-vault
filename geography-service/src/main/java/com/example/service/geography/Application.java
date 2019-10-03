@@ -1,4 +1,4 @@
-package com.example.geography;
+package com.example.service.geography;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

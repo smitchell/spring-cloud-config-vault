@@ -2,6 +2,11 @@ eureka:
   client:
     enabled: false
 
+logging:
+  level:
+    ROOT: WARN
+    com.example.geography: DEBUG
+
 security:
   oauth2:
     client:

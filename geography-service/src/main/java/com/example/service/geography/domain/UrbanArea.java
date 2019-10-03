@@ -1,4 +1,4 @@
-package com.example.geography.domain;
+package com.example.service.geography.domain;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -9,10 +9,13 @@ import javax.persistence.Id;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+/**
+ * Example Urban Area data from https://www.census.gov/geographies/reference-files/2017/geo/gazetter-file.html
+ */
 @Entity
 @Data
 @EqualsAndHashCode
-public class UrbanCluster implements Serializable {
+public class UrbanArea implements Serializable {
 
     @Id
     private String geoId;

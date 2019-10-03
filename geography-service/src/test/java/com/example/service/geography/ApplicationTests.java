@@ -1,4 +1,4 @@
-package com.example.geography;
+package com.example.service.geography;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
