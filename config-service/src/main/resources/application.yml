@@ -13,7 +13,4 @@ spring:
         git:
           uri: file://${user.home}/Development/smitchell/spring-cloud-config-vault
           search-paths: config-repo
-          # Normally, this is true, but in this example the git root is above config-repo
-          # which causes the repository to be cloned over all the projects. The config-repo
-          # should be a stand-along git repository.
           clone-on-start: false
