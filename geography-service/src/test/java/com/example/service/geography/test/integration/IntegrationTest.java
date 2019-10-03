@@ -93,7 +93,6 @@ public class IntegrationTest {
                 .andExpect(status().is2xxSuccessful());
     }
 
-    @Ignore
     @Test
     public void testListUrbanAreas() throws Exception {
         UrbanArea urbanArea = UrbanAreaFactory.build();
@@ -104,18 +103,16 @@ public class IntegrationTest {
                 .andDo(print())
                 .andExpect(status().isCreated());
 
-        mockMvc.perform(get("/urbanAreas/search/findAll"))
+        mockMvc.perform(get("/urbanAreas"))
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(
                         header().string(HttpHeaders.CONTENT_TYPE, MediaTypes.HAL_JSON_VALUE + ";charset=UTF-8"))
-                .andExpect(jsonPath("$[0].name").value(urbanArea.getName()))
+                .andExpect(jsonPath("$._embedded.urbanAreas[0].name").value(urbanArea.getName()))
                 .andExpect(
                         header().string(HttpHeaders.CONTENT_TYPE, MediaTypes.HAL_JSON_VALUE + ";charset=UTF-8"));
-
     }
 
     @Test
-    @Ignore
     public void testPageUrbanAreas() throws Exception {
         UrbanArea urbanArea = UrbanAreaFactory.build();
         String json = new ObjectMapper().writeValueAsString(urbanArea);
@@ -125,16 +122,16 @@ public class IntegrationTest {
                 .andDo(print())
                 .andExpect(status().isCreated());
 
-        mockMvc.perform(get("/urbanAreas/search/findAll")
+        mockMvc.perform(get("/urbanAreas")
                 .param("page", "0")
                 .param("limit", "50")
                 .accept("application/json;charset=UTF-8"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(content().contentType("application/json"))
-                .andExpect(jsonPath("$[0].name").value(urbanArea.getName()))
+                .andExpect(content().contentType("application/json;charset=UTF-8"))
+                .andExpect(jsonPath("$._embedded.urbanAreas[0].name").value(urbanArea.getName()))
                 .andExpect(
-                        header().string(HttpHeaders.CONTENT_TYPE, MediaTypes.HAL_JSON_VALUE + ";charset=UTF-8"));
+                        header().string(HttpHeaders.CONTENT_TYPE,  "application/json;charset=UTF-8"));
     }
 
 }

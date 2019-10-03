@@ -6,10 +6,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-@RepositoryRestController
+@Repository
 public interface UrbanAreaRepository extends PagingAndSortingRepository<UrbanArea, String> {
 
     Optional<UrbanArea> findByName(@Param("name") String name);

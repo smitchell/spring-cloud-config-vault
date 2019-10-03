@@ -35,20 +35,6 @@ public class UrbanAreaControllerTest {
     private UrbanAreaRepository urbanAreaRepository;
 
     @Test
-    public void testPageUrbanAreas() throws Exception {
-        final int page = 0;
-        final int size = 50;
-        given(urbanAreaRepository.findAll(PageRequest.of(page, size, Sort.by("name").ascending()))).willReturn(UrbanAreaFactory.buildPages());
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/listUrbanAreas")
-                .param("page", String.valueOf(page))
-                .param("size", String.valueOf(size)))
-        .andExpect(status().isOk())
-        .andExpect(jsonPath("$.content").exists())
-        .andExpect(jsonPath("$.content[0].name").value(UrbanAreaFactory.NAME));
-    }
-
-    @Test
     public void testSearchByName() throws Exception {
         final int page = 0;
         final int size = 50;
