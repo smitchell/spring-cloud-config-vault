@@ -1,0 +1,7 @@
+spring:
+  jpa:
+    open-in-view: false
+  datasource:
+    password: password2
+    url: jdbc:mysql://127.0.0.1:3306/geography?autoReconnect=true
+    username: geography_dba
