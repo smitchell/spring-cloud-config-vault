@@ -1,16 +1,23 @@
 package com.example.service.geography.controller;
 
+import com.example.service.geography.domain.UrbanArea;
 import com.example.service.geography.repository.UrbanAreaRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 
+import javax.annotation.PostConstruct;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.concurrent.CountDownLatch;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.List;
 
+@Slf4j
 @Controller
 public class UrbanAreaLoader {
 
@@ -23,6 +30,11 @@ public class UrbanAreaLoader {
             final UrbanAreaRepository urbanAreaRepository) {
         this.importFilePath = importFilePath;
         this.urbanAreaRepository = urbanAreaRepository;
+    }
+
+    @PostConstruct
+    public void setup() throws IOException {
+        load();
     }
 
     public int load() throws IOException {
@@ -40,14 +52,27 @@ public class UrbanAreaLoader {
             InputStream input = UrbanAreaLoader.class.getResourceAsStream(filePath);
             reader = new BufferedReader(new InputStreamReader(input));
             String line = reader.readLine();
-
+            final int expectedColumns = 9;
+            final int batchSize = 999;
+            List<UrbanArea> batch = new ArrayList<>();
             while (line != null) {
-                System.out.println(line);
-                if (count++ > 0) {
-                    //process line
+                log.info("Loading " + line);
+                if (count > 0) {
+                    String[] values = line.split("\t");
+                    if (values.length < expectedColumns) {
+                        log.error(String.format("Row %s: Expected %s rows but found %s", count, expectedColumns, values.length));
+                    }
+                    batch.add(processRow(values));
+                    if (batch.size() >= batchSize) {
+                        urbanAreaRepository.saveAll(batch);
+                        batch.clear();
+                    }
                 }
-                // read next line
+                count++;
                 line = reader.readLine();
+            }
+            if (!batch.isEmpty()) {
+                urbanAreaRepository.saveAll(batch);
             }
             return count;
         } finally {
@@ -55,6 +80,20 @@ public class UrbanAreaLoader {
                 reader.close();
             }
         }
+    }
+
+    private UrbanArea processRow(String[] values) {
+        UrbanArea urbanArea = new UrbanArea();
+        urbanArea.setGeoId(values[0]);
+        urbanArea.setName(values[1]);
+        urbanArea.setType(values[2]);
+        urbanArea.setAreaLand(Double.parseDouble(values[3]));
+        urbanArea.setAreaWater(Double.parseDouble(values[4]));
+        urbanArea.setLandSqMiles(BigDecimal.valueOf(Double.parseDouble(values[5])).setScale(2, RoundingMode.HALF_UP));
+        urbanArea.setWaterSqMiles(BigDecimal.valueOf(Double.parseDouble(values[6])).setScale(2, RoundingMode.HALF_UP));
+        urbanArea.setLatitude(BigDecimal.valueOf(Double.parseDouble(values[7])).setScale(6, RoundingMode.HALF_UP));
+        urbanArea.setLongitude(BigDecimal.valueOf(Double.parseDouble(values[8])).setScale(6, RoundingMode.HALF_UP));
+        return urbanArea;
     }
 
     public boolean isLoaded() {
