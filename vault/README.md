@@ -122,6 +122,37 @@ Cluster ID      cf19d6c1-24b7-e515-84eb-a7b74d622844
 HA Enabled      false
 ```
 
+# Create a Token to use with Spring Vault
+
+Here we create a token with a known id simply to place it in source control for this example,
+This saves you having to update the application.yml every time you reinitialize Vault.
+
+```
+$ vault token create -id="00000000-0000-0000-0000-000000000000" -policy="root"
+
+WARNING! The following warnings were returned from Vault:
+
+  * Supplying a custom ID for the token uses the weaker SHA1 hashing instead
+  of the more secure SHA2-256 HMAC for token obfuscation. SHA1 hashed tokens
+  on the wire leads to less secure lookups.
+
+Key                  Value
+---                  -----
+token                00000000-0000-0000-0000-000000000000
+token_accessor       NSW9ribsBzMsoR3FrXSEUZFh
+token_duration       ∞
+token_renewable      false
+token_policies       ["root"]
+identity_policies    []
+policies             ["root"]
+```
+
+Export the new token:
+
+```
+export VAULT_TOKEN=00000000-0000-0000-0000-000000000000
+```
+
 ## Enable the Key/Value Secrets Engine
 ```
 vault secrets enable kv
