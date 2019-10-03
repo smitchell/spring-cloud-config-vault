@@ -69,8 +69,19 @@ public class UrbanAreaRepositoryTest {
     @Test
     public void testPageUrbanArea() {
         UrbanArea urbanArea = UrbanAreaFactory.build();
-        UrbanArea savedCluster = urbanAreaRepository.save(urbanArea);
+        urbanAreaRepository.save(urbanArea);
         Page<UrbanArea> results = urbanAreaRepository.findAll(PageRequest.of(0,10));
+        assertThat(results, notNullValue());
+        assertThat((int)results.getTotalElements(), greaterThan(0));
+    }
+
+    @Test
+    public void testSearchByName() {
+        UrbanArea urbanArea = UrbanAreaFactory.build();
+        urbanAreaRepository.save(urbanArea);
+        String searchTerm = UrbanAreaFactory.NAME.substring(5, UrbanAreaFactory.NAME.length() - 5);
+        final String percent = "%";
+        Page<UrbanArea> results = urbanAreaRepository.findByNameLikeOrderByNameAsc(percent.concat(searchTerm).concat(percent), PageRequest.of(0, 50));
         assertThat(results, notNullValue());
         assertThat((int)results.getTotalElements(), greaterThan(0));
     }

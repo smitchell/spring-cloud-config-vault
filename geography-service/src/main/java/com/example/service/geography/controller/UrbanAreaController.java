@@ -24,4 +24,10 @@ public class UrbanAreaController {
     public Page<UrbanArea> listUrbanAreas(@RequestParam int page, @RequestParam int size) {
         return urbanAreaRepository.findAll(PageRequest.of(page, size, Sort.by("name").ascending()));
     }
+
+    @GetMapping("/searchUrbanAreasByName")
+    public Page<UrbanArea> searchUrbanAreasByName(@RequestParam String searchTerm, @RequestParam int page, @RequestParam int size) {
+        final String percent = "%";
+        return urbanAreaRepository.findByNameLikeOrderByNameAsc(percent.concat(searchTerm).concat(percent), PageRequest.of(page, size, Sort.by("name").ascending()));
+    }
 }
