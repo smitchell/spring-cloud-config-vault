@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: geography-service
+  cloud:
+    config:
+      enabled: false
+      override-none: true

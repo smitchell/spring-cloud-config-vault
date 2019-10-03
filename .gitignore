@@ -27,4 +27,7 @@ HELP.md
 
 ### VS Code ###
 .vscode/
+
+
 .DS_Store
+/vault-data/
