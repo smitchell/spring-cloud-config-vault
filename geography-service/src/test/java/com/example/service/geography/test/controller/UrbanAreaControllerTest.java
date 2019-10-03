@@ -54,7 +54,6 @@ public class UrbanAreaControllerTest {
         final int size = 50;
         String searchTerm = UrbanAreaFactory.NAME.substring(5, UrbanAreaFactory.NAME.length() - 5);
         final String percent = "%";
-//        given(urbanAreaRepository.findByNameLikeOrderByNameAsc(percent.concat(searchTerm).concat(percent), PageRequest.of(page, size))).willReturn(UrbanAreaFactory.buildPages());
         given(urbanAreaRepository.findByNameLikeOrderByNameAsc(anyString(), any())).willReturn(UrbanAreaFactory.buildPages());
         mockMvc.perform(MockMvcRequestBuilders.get("/searchUrbanAreasByName")
                 .param("searchTerm", searchTerm)
