@@ -1,0 +1,5 @@
+GEOID	NAME	UATYPE	ALAND	AWATER	ALAND_SQMI	AWATER_SQMI	INTPTLAT	INTPTLONG                                                                                                                      
+00037	Abbeville, LA Urban Cluster	C	29189595	298416	11.27	0.115	29.967156	-92.095966                                                                                                                    
+00064	Abbeville, SC Urban Cluster	C	11271121	19786	4.352	0.008	34.179237	-82.379726                                                                                                                     
+00091	Abbotsford, WI Urban Cluster	C	5394607	13221	2.083	0.005	44.948612	-90.315875                                                                                                                     
+00118	Aberdeen, MS Urban Cluster	C	7416532	52820	2.864	0.02	33.824742	-88.554591

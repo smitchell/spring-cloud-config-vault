@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 
 /**
  * Example Urban Area data from https://www.census.gov/geographies/reference-files/2017/geo/gazetter-file.html
+ * ISO-8859-1
  */
 @Entity
 @Data

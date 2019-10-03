@@ -14,10 +14,6 @@ import java.util.Optional;
 @RepositoryRestController
 public interface UrbanAreaRepository extends PagingAndSortingRepository<UrbanArea, String> {
 
-    @RestResource(path = "/pagedUrbanAreas")
-    Page<UrbanArea> findAll(Pageable pageable);
-
     @RestResource
     Optional<UrbanArea> findByName(@Param("name") String name);
-
 }

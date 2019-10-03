@@ -44,4 +44,5 @@ public class UrbanAreaControllerTest {
         .andExpect(jsonPath("$.content[0].name").value(UrbanAreaFactory.NAME));
 
     }
+
 }

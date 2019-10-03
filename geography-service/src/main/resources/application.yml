@@ -1,3 +1,5 @@
+importFilePath: /2017_Gaz_ua_national.txt
+
 spring:
   jpa:
     open-in-view: false

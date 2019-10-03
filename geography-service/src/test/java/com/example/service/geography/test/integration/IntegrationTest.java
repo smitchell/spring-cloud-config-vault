@@ -116,6 +116,7 @@ public class IntegrationTest {
 
     }
 
+    @Ignore
     @Test
     public void testPageUrbanAreas() throws Exception {
         UrbanArea urbanArea = UrbanAreaFactory.build();
@@ -126,7 +127,7 @@ public class IntegrationTest {
                 .andDo(print())
                 .andExpect(status().isCreated());
 
-        mockMvc.perform(get("/urbanAreas/search/pagedUrbanAreas")
+        mockMvc.perform(get("/urbanAreas/search/findAll")
                 .param("page", "0")
                 .param("limit", "50")
                 .accept("application/json;charset=UTF-8"))
