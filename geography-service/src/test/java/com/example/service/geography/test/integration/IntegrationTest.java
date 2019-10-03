@@ -117,7 +117,7 @@ public class IntegrationTest {
     }
 
     @Test
-    public void testFindUrbanArea() throws Exception {
+    public void testPageUrbanAreas() throws Exception {
         UrbanArea urbanArea = UrbanAreaFactory.build();
         String json = new ObjectMapper().writeValueAsString(urbanArea);
         mockMvc.perform(post("/urbanAreas")
@@ -126,27 +126,7 @@ public class IntegrationTest {
                 .andDo(print())
                 .andExpect(status().isCreated());
 
-        mockMvc.perform(get("/urbanAreas/".concat(urbanArea.getGeoId()))
-                .accept("application/json;charset=UTF-8"))
-                .andExpect(status().is2xxSuccessful())
-                .andExpect(
-                        header().string(HttpHeaders.CONTENT_TYPE, "application/json;charset=UTF-8"))
-                .andExpect(jsonPath("$.name").value(urbanArea.getName()));
-
-    }
-
-    @Ignore
-    @Test
-    public void testPageUrbanArea() throws Exception {
-        UrbanArea urbanArea = UrbanAreaFactory.build();
-        String json = new ObjectMapper().writeValueAsString(urbanArea);
-        mockMvc.perform(post("/urbanAreas")
-                .contentType("application/json;charset=UTF-8")
-                .content(json))
-                .andDo(print())
-                .andExpect(status().isCreated());
-
-        mockMvc.perform(get("/urbanAreas/search/findAll")
+        mockMvc.perform(get("/urbanAreas/search/pagedUrbanAreas")
                 .param("page", "0")
                 .param("limit", "50")
                 .accept("application/json;charset=UTF-8"))
