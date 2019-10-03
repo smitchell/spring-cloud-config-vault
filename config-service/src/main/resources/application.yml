@@ -11,6 +11,6 @@ spring:
     config:
       server:
         git:
-          uri: file://${user.home}/Development/smitchell/spring-cloud-config-vault
+          uri: file://${pwd}/../
           search-paths: config-repo
           clone-on-start: false

@@ -1,5 +1,26 @@
 # SETUP
 
+## Set the configuration service path
+
+That config-repo path is relative using the $PWD environment variable. If you are running
+this on Windows you'll need to fix this path for your operating system. The code
+snippet below is from the the config-service main application.yml.
+
+```
+spring:
+  cloud:
+    config:
+      server:
+        git:
+          uri: file://${pwd}/../
+          search-paths: config-repo
+          clone-on-start: false
+```
+
+Also, "clone-on-start: false" doesn't work the way I thought. Since all of the projects are under
+a single Git root, each time you start the configuration service it overwrites any local uncommitted changes.
+
+## Set-up Vault
 Follow these instructions to install vault:
 
 https://learn.hashicorp.com/vault/getting-started/install
