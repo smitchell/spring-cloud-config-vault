@@ -1,4 +1,6 @@
-importFilePath: /2017_Gaz_ua_national.txt
+import:
+  batch-size: 999
+  file-path: /2017_Gaz_ua_national.txt
 
 security:
   oauth2:
