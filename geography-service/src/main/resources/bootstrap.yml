@@ -9,9 +9,9 @@ spring:
       ssl:
         trust-store: classpath:/keystore.jks
         trust-store-password: changeit
-      generic:
-        enabled: true
-        application-name: geography-service
+#      generic:
+#        enabled: true
+#        application-name: geography-service
       database:
         enabled: true
         role: geography-all-privileges-accounts
