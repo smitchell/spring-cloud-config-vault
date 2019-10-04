@@ -18,4 +18,4 @@ spring:
         backend: database
         username-property: spring.datasource.username
         password-property: spring.datasource.password
-        token: 00000000-0000-0000-0000-000000000000
+      token: 00000000-0000-0000-0000-000000000000
