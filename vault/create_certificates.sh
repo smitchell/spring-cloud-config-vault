@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# TAKEN FROM https://github.com/spring-cloud/spring-cloud-vault
+
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 CA_DIR=work/ca
 KEYSTORE_FILE=work/keystore.jks

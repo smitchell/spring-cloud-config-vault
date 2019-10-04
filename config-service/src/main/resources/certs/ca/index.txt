@@ -1,2 +1,0 @@
-V	201011183057Z		1000	unknown	/C=NN/ST=Unknown/O=spring-cloud-vault-config/CN=localhost
-V	201011183057Z		1001	unknown	/C=NN/ST=Unknown/O=spring-cloud-vault-config/CN=client

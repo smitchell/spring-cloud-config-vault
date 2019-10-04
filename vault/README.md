@@ -1,25 +1,5 @@
 # SETUP
 
-## Set the configuration service path
-
-That config-repo path is relative using the $PWD environment variable. If you are running
-this on Windows you'll need to fix this path for your operating system. The code
-snippet below is from the the config-service main application.yml.
-
-```
-spring:
-  cloud:
-    config:
-      server:
-        git:
-          uri: file://${pwd}/../
-          search-paths: config-repo
-          clone-on-start: false
-```
-
-Also, "clone-on-start: false" doesn't work the way I thought. Since all of the projects are under
-a single Git root, each time you start the configuration service it overwrites any local uncommitted changes.
-
 ## Set-up Vault
 Follow these instructions to install vault:
 
@@ -40,10 +20,11 @@ Open a terminal and navigate to the folder containing this README file.
 
 ## Self-signed Certificates
 
-This project runs Vault with a self-signed certificate. An example script to create the keystore can be found
-in the Spring Cloud Vault GitHub project (https://github.com/spring-cloud/spring-cloud-vault) in
-src/test/bash/create_certificates.sh. For convenience, I included create_certificates.sh in the /vault directory of this project.
-That script creates a /work directory. I renamed /work to [projects directory]/spring-cloud-config-vault/vault/certs.
+Non-Dev needs to use TLS connections. This project runs Vault without TLS for simplicity. 
+An example script to create a TLS keystore can be found in the Spring Cloud Vault GitHub project 
+(https://github.com/spring-cloud/spring-cloud-vault) at src/test/bash/create_certificates.sh. 
+For convenience, I included create_certificates.sh in the /vault directory of this project.
+That script creates a /work directory which I renamed to [projects directory]/spring-cloud-config-vault/vault/certs.
 
 # RUNNING VAULT
 
@@ -52,7 +33,9 @@ This section covers starting vault for the first time
 
 ## Start the Server using the Config File
 
-Open a terminal, navigate to this project's /vault directory, and start Vault.
+Open a terminal, navigate to this project's /vault directory, and start Value using
+vault-config.hcl with no TLS for dev-mode, or use vault-config-tls.hcl to use TLS.
+If you use TLS you need to change VAULT_ADDR from http to https.
 
 ```
 cd [projects directory]/spring-cloud-config-vault/vault
@@ -65,10 +48,14 @@ Open a second terminal, export the environment variable shown, then initialize V
 
 ```
 cd [projects directory]/spring-cloud-config-vault/vault
-export VAULT_ADDR=https://localhost:8200
+export VAULT_ADDR=http://localhost:8200
 export VAULT_SKIP_VERIFY=false
-export VAULT_CAPATH=${PWD}/certs/ca/certs/ca.cert.pem
 vault operator init
+```
+
+if you are using TLS you also need to export this:
+```
+export VAULT_CAPATH=${PWD}/certs/ca/certs/ca.cert.pem
 ```
 
 Your output will look like this *SAVE A COPY OF YOUR KEYS AND ROOT TOKEN*.
