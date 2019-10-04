@@ -1,3 +1,20 @@
 spring:
   application:
     name: geography-service
+  cloud:
+    vault:
+      uri: https://localhost:8200
+      connection-timeout: 5000
+      read-timeout: 15000
+      ssl:
+        trust-store: classpath:/keystore.jks
+        trust-store-password: changeit
+      generic:
+        enabled: true
+        application-name: geography-service
+      database:
+        enabled: true
+        role: geography-all-privileges-accounts
+        backend: database
+        username-property: spring.datasource.username
+        password-property: spring.datasource.password

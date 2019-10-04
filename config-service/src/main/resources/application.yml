@@ -15,7 +15,11 @@ spring:
           search-paths: config-repo
           clone-on-start: false
     vault:
+      database:
+        enabled: true
+        role: geography-all-privileges-accounts
       uri: https://localhost:8200
       ssl:
-        trust-store: classpath:/certs/client-cert.jks
+        trust-store: classpath:/keystore.jks
         trust-store-password: changeit
+      token: 00000000-0000-0000-0000-000000000000
