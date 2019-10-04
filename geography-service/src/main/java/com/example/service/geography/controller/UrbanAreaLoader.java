@@ -22,12 +22,15 @@ import java.util.List;
 public class UrbanAreaLoader {
 
     private final String importFilePath;
+    private final int importBatchSize;
     private final UrbanAreaRepository urbanAreaRepository;
 
     @Autowired
     public UrbanAreaLoader(
-            @Value("${importFilePath}") final String importFilePath,
+            @Value("${import.batch-size}") final int importBatchSize,
+            @Value("${import.file-path}") final String importFilePath,
             final UrbanAreaRepository urbanAreaRepository) {
+        this.importBatchSize = importBatchSize;
         this.importFilePath = importFilePath;
         this.urbanAreaRepository = urbanAreaRepository;
     }
@@ -53,17 +56,13 @@ public class UrbanAreaLoader {
             reader = new BufferedReader(new InputStreamReader(input));
             String line = reader.readLine();
             final int expectedColumns = 9;
-            final int batchSize = 999;
             List<UrbanArea> batch = new ArrayList<>();
             while (line != null) {
                 log.info("Loading " + line);
                 if (count > 0) {
                     String[] values = line.split("\t");
-                    if (values.length < expectedColumns) {
-                        log.error(String.format("Row %s: Expected %s rows but found %s", count, expectedColumns, values.length));
-                    }
                     batch.add(processRow(values));
-                    if (batch.size() >= batchSize) {
+                    if (batch.size() >= importBatchSize) {
                         urbanAreaRepository.saveAll(batch);
                         batch.clear();
                     }

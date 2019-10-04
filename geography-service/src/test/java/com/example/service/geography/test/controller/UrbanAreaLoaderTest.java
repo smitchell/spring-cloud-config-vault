@@ -24,12 +24,14 @@ public class UrbanAreaLoaderTest {
     @Autowired
     private UrbanAreaRepository urbanAreaRepository;
 
-    @Value("${importFilePath}")
+    @Value("${import.file-path}")
     private String importFilePath;
 
     @Test
     public void testLoadFileWithParam() throws IOException {
+        urbanAreaRepository.deleteAll();;
         urbanAreaLoader.loadFile("/2017_Gaz_ua_national.txt");
         assertThat(urbanAreaRepository.count(), equalTo(4L));
+        assertThat(urbanAreaLoader.load(), equalTo(0));
     }
 }
