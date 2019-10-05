@@ -160,26 +160,41 @@ Export the new token:
 export VAULT_TOKEN=00000000-0000-0000-0000-000000000000
 ```
 
+# SETUP SECRETS FOR JWT RSA SIGNING KEYS
+
+These steps add the RSA signing keys for JWT encoding to Vault.
+
 ## Enable the Key/Value Secrets Engine
 ```
 vault secrets enable -path=secret kv
 Success! Enabled the kv secrets engine at: secret/
 ```
-Add some secrets
+
+## Add the RSA Private and Public Key
+
+From a terminal, make sure that you are in the ./vault directory where the key files for
+this project are stored.
+
+### Add the Authentication Service private and public keys
 ```
-vault write secret/my-secret value="s3c(eT"
-vault write secret/hello target=world
-vault write secret/airplane type=boeing class=787
+vault kv put secret/authentication-service keyPair.private-key=@jwt_rsa_private.key keyPair.public-key=@jwt_rsa_public.key
 ```
 
-List the secrets
+### Add the public key for the Proxy Service
 ```
-$ vault list secret
-Keys
-----
-airplane
-hello
-my-secret
+vault kv put secret/proxy-service security.oauth2.resource.jwt.keyValue=@jwt_rsa_public.key
+```
+
+### Add the public key for the Geography Service
+```
+vault kv put secret/geography-service security.oauth2.resource.jwt.keyValue=@jwt_rsa_public.key
+```
+
+### Verify your work
+```
+$ vault list secret/authentication-service
+$ vault list secret/proxy-service
+$ vault list secret/geography-service
 ```
 
 # DATABASE SETUP
@@ -240,25 +255,3 @@ lease_renewable    true
 password           A1a-nvcb753HmF7JDPdi
 username           v-geog-LoE0Cn7rI
 ```
-
-vault write secret/application client.pseudo.property="Property value loaded from Vault"
-vault write secret/config-service client.pseudo.property="Property value loaded from Vault"
-
-
-vault kv put secret/airlane  test="Loaded from Vault KEYPAIR-TEST-VALUE"
-
-vault kv put secret/application testvalue="Loaded from Vault testvalue"
-vault kv put secret/application/configservice testvalue="Loaded from Vault configservice testvalue"
-vault kv put secret/application/config-service  testvalue="Loaded from Vault config-service testvalue"
-
-
-vault kv put secret/authentication-service \
-KEYPAIR-TEST-VALUE="Loaded from Vault KEYPAIR-TEST-VALUE" \
-KEYPAIR-TEST="Loaded from Vault KEYPAIR-TEST" \
-keyPair.test-value="Loaded from Vault keyPair.test-value" \
-keyPair.test="Loaded from Vault keyPair.test"
-
-
-vault write secret/config-service keyPair.test-value="Loaded from Vault config-service"
-
-vault write secret/configservice testvalue="Loaded from Vault configservice"
