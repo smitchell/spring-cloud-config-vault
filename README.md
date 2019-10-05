@@ -23,7 +23,8 @@ spring:
 
 ### Start the Protected Web site
 1) cd ./spring-oauth2-sso-config-no-eureka/protected-web-site
-2) ng serve --baseHref=/protected-web-site/ --port=9001
+2) npm install
+3) ng serve --baseHref=/protected-web-site/ --port=9001
 
 ### Start the Zuul Proxy
 1) /spring-oauth2-sso-config-no-eureka/proxy-service
