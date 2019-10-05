@@ -6,7 +6,9 @@ import com.example.service.auth.validation.ValidationRegex;
 import org.apache.commons.validator.routines.RegexValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.PostConstruct;
 import java.util.Optional;
 
+@Slf4j
 @RestController
 public class UserController {
 
@@ -28,7 +31,7 @@ public class UserController {
 
   @Autowired
   public UserController(
-      final UserRepository userRepository
+      UserRepository userRepository
   ) {
     this.userRepository = userRepository;
   }

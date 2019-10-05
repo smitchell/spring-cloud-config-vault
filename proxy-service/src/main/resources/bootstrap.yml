@@ -1,3 +1,10 @@
 spring:
   application:
     name: proxy-service
+  cloud:
+    vault:
+      uri: http://localhost:8200
+      #      ssl:
+      #        trust-store: classpath:/keystore.jks
+      #        trust-store-password: changeit
+      token: 00000000-0000-0000-0000-000000000000

@@ -13,6 +13,6 @@ spring:
         native:
           search-locations: file://${pwd}/../config-repo
   profiles:
-    active: native
+    active: native,default
 
 

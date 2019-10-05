@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'cloud-foundry-angular-example';
+  title = 'Welcome to the Spring Cloud Config Plus Spring Vault Example';
 }

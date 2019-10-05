@@ -1,8 +1,8 @@
+testvalue: placeholder
 keyPair:
   # I generated this just for this example project
   # openssl genrsa -out jwt.pem 2048
   # openssl rsa -in jwt.pem
-  value: abc
   private-key: |
     -----BEGIN RSA PRIVATE KEY-----
     MIIEpQIBAAKCAQEAt43IFSkg+S24R0Uw9PGpioGOcmFQqiivkOAC9WSTJGUVF7Jo
