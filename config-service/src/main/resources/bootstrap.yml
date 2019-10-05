@@ -3,15 +3,12 @@ spring:
     name: config-service
   cloud:
     vault:
-      host: localhost
-      port: 8200
-      scheme: https
+      database:
+        enabled: true
+        role: geography-all-privileges-accounts
       uri: http://localhost:8200
-      connection-timeout: 5000
-      read-timeout: 15000
-      config:
-        order: -10
-      token: 00000000-0000-0000-0000-000000000000
 #      ssl:
-#        trust-store: classpath:/certs/keystore.jks
+#        trust-store: classpath:/keystore.jks
 #        trust-store-password: changeit
+      token: 00000000-0000-0000-0000-000000000000
+
