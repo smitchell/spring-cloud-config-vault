@@ -6,6 +6,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 # Vault environment settings. Source this file.                           #
 ###########################################################################
 
+export VAULT_TOKEN=00000000-0000-0000-0000-000000000000
 export VAULT_ADDR=http://localhost:8200
 export VAULT_SKIP_VERIFY=false
-# export VAULT_CAPATH=${PWD}/certs/ca/certs/ca.cert.pem
+# export VAULT_CAPATH=${PWD}/work/ca/certs/ca.cert.pem

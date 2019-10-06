@@ -1,5 +1,3 @@
-geography-client-password: geography-client-password Vault Placeholder
-
 server:
   port: 9002
 

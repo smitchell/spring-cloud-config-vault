@@ -3,16 +3,22 @@ spring:
     name: geography-service
   cloud:
     vault:
+      token: 00000000-0000-0000-0000-000000000000
       uri: http://localhost:8200
       connection-timeout: 5000
-      read-timeout: 15000
-#      ssl:
-#        trust-store: classpath:/keystore.jks
-#        trust-store-password: changeit
       database:
         enabled: true
         role: geography-all-privileges-accounts
         backend: database
         username-property: spring.datasource.username
         password-property: spring.datasource.password
-      token: 00000000-0000-0000-0000-000000000000
+      read-timeout: 15000
+      config:
+        order: -10
+#      ssl:
+#        trust-store: classpath:/keystore.jks
+#        trust-store-password: changeit
+#  Be sure to put secrets in vault per ../vault/README.md
+#  vault kv put secret/geography-service \
+#  security.oauth2.resource.jwt.keyValue=@jwt_rsa_public.key \
+#  security.oauth2.client.clientSecret="bcN2?NrNF"

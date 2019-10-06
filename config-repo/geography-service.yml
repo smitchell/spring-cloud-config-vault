@@ -6,7 +6,7 @@ security:
   oauth2:
     client:
       clientId: geography-client
-      clientSecret: Placeholder for Vault security.oauth2.client.clientSecret
+      clientSecret: Vault Placeholder for security.oauth2.client.clientSecret
     resource:
       jwt:
         keyValue: security.oauth2.resource.jwt.keyValue Vault placeholder

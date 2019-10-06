@@ -6,3 +6,6 @@ listener "tcp" {
   tls_cert_file = "certs/ca/certs/localhost.cert.pem"
   tls_key_file = "certs/ca/private/localhost.decrypted.key.pem"
 }
+path "auth/token/lookup-self" {
+  capabilities = ["read"]
+}

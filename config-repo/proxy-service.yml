@@ -23,7 +23,7 @@ security:
       accessTokenUri: http://localhost:9002/oauth/token
       userAuthorizationUri: http://localhost:9002/oauth/authorize
       clientId: proxy-client
-      clientSecret: Vault Placeholder for security.oauth2.clientclientSecret
+      clientSecret: Vault Placeholder for security.oauth2.client.clientSecret
     resource:
       jwt:
         keyValue: security.oauth2.resource.jwt.keyValue Vault placeholder

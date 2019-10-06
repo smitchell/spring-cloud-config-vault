@@ -11,4 +11,3 @@ spring:
 #        trust-store: classpath:/keystore.jks
 #        trust-store-password: changeit
       token: 00000000-0000-0000-0000-000000000000
-

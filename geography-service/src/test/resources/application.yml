@@ -1,7 +1,3 @@
-eureka:
-  client:
-    enabled: false
-
 import:
   batch-size: 3
   file-path: /2017_Gaz_ua_national.txt

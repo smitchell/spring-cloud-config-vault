@@ -5,14 +5,21 @@ spring:
     vault:
       uri: http://localhost:8200
       connection-timeout: 5000
-      read-timeout: 15000
-      #      ssl:
-      #        trust-store: classpath:/keystore.jks
-      #        trust-store-password: changeit
       database:
         enabled: true
         role: authentication-all-privileges-accounts
         backend: database
         username-property: spring.datasource.username
         password-property: spring.datasource.password
+      read-timeout: 15000
+      config:
+        order: -10
+#      ssl:
+#        trust-store: classpath:/keystore.jks
+#        trust-store-password: changeit
       token: 00000000-0000-0000-0000-000000000000
+#  Be sure to put secrets in vault per ../vault/README.md
+#  vault kv put \
+#  secret/authentication-service \
+#  keyPair.private-key=@jwt_rsa_private.key \
+#  keyPair.public-key=@jwt_rsa_public.key
