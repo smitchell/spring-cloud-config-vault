@@ -1,14 +1,25 @@
+geography-client-password: geography-client-password Vault Placeholder
+
 server:
   port: 9002
 
 spring:
   datasource:
-    url: jdbc:h2:mem:testdb;DB_CLOSE_ON_EXIT=FALSE;DB_CLOSE_DELAY=-1
+    url: jdbc:mysql://127.0.0.1:3306/authentication?autoReconnect=true
+    hikari:
+      connection-test-query: select 1
+      idle-timeout: 5000
+      max-lifetime: 120000
+      maximum-pool-size: 5
+      minimum-idle: 5
   jpa:
     generate-ddl: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     open-in-view: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
 keyPair:
   # I generated this just for this example project
   # openssl genrsa -out jwt.pem 2048
@@ -19,4 +30,12 @@ keyPair:
   public-key: keyPair.public-key Vault placeholder
 
 # cd ../vault
-# vault kv put secret/authentication-service keyPair.private-key=@jwt_rsa_private.key keyPair.public-key=@jwt_rsa_public.key
+# vault kv put \
+#    secret/authentication-service \
+#    keyPair.private-key=@jwt_rsa_private.key \
+#    keyPair.public-key=@jwt_rsa_public.key \
+#    geography-client-password="bcN2?NrNF"
+# # Verify the results:
+# vault read secret/authentication-service
+# -- OR --
+# http://localhost:8888/authentication-service/default

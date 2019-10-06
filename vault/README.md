@@ -131,8 +131,10 @@ HA Enabled      false
 
 # Create a Token to use with Spring Vault
 
-Here we create a token with a known id simply to place it in source control for this example,
-This saves you having to update the application.yml every time you reinitialize Vault.
+Tokens can be used to partition secrets. In the example we use the same token
+for all the services, but you could create separate tokens for each microservice.
+In the event that an intruder got a hold of the Vault SSL Cert and a token,
+they could not access secrets of other microservice.
 
 ```
 $ vault token create -id="00000000-0000-0000-0000-000000000000" -policy="root"
@@ -177,41 +179,65 @@ this project are stored.
 
 ### Add the Authentication Service private and public keys
 ```
-vault kv put secret/authentication-service keyPair.private-key=@jwt_rsa_private.key keyPair.public-key=@jwt_rsa_public.key
+vault kv put \
+    secret/authentication-service \
+    keyPair.private-key=@jwt_rsa_private.key \
+    keyPair.public-key=@jwt_rsa_public.key
 ```
 
 ### Add the public key for the Proxy Service
+Let's assume a unique client secret was set in the database on the Proxy OAuth2 consumer record.
 ```
-vault kv put secret/proxy-service security.oauth2.resource.jwt.keyValue=@jwt_rsa_public.key
+vault kv put secret/proxy-service \
+    security.oauth2.resource.jwt.keyValue=@jwt_rsa_public.key \
+    security.oauth2.client.clientSecret="bcN2?NrNF"
 ```
 
 ### Add the public key for the Geography Service
+Let's assume a unique client secret was set in the database on the Geography OAuth2 consumer record.
+
 ```
-vault kv put secret/geography-service security.oauth2.resource.jwt.keyValue=@jwt_rsa_public.key
+vault kv put secret/geography-service \
+    security.oauth2.resource.jwt.keyValue=@jwt_rsa_public.key \
+    security.oauth2.client.clientSecret="bcN2?NrNF"
 ```
 
 ### Verify your work
+Use these commands to display the secrets that you create.
 ```
-$ vault list secret/authentication-service
-$ vault list secret/proxy-service
-$ vault list secret/geography-service
+vault read secret/authentication-service
+vault read secret/proxy-service
+vault read secret/geography-service
 ```
 
+Use the config-service endpoints to verify that placeholder values are in place.
+Secrets are not exposed on these endpoints. Variable substitution takes place 
+in the respective microservices, not in the configuration service.
+* http://localhost:8888/application/default
+* http://localhost:8888/authentication-service/default
+* http://localhost:8888/geography-service/default
+* http://localhost:8888/proxy-service/default
+
+
 # DATABASE SETUP
-If you don't have MySQL installed, launch it using Docker. If you already have MySQL
-running create a geography database and grant user "geography_dba" all privileges to it.
+If you don't have MySQL installed, then launch an instance using Docker.
 
 ```
 docker \
  run \
  --detach \
  --env MYSQL_ROOT_PASSWORD='password1' \
- --env MYSQL_USER=geography_dba \
- --env MYSQL_PASSWORD='password2' \
- --env MYSQL_DATABASE=geography \
  --name mysql \
  --publish 3306:3306 \
  mysql
+```
+
+Connect to the MySQL instance, and create these two databases.
+
+```
+CREATE DATABASE IF NOT EXISTS `geography`;
+CREATE DATABASE IF NOT EXISTS `authentication`;
+
 ```
 
 ## Enable database secrets.
@@ -221,7 +247,7 @@ vault secrets enable database
 
 ## Add Database Configuration
 
-Create database configuration resources using an Id with privileges to add new users.
+Create Database Configuration Resources using an Id with privileges to add new users.
 
 ```
 vault write database/config/mysql-geography \
@@ -230,19 +256,30 @@ vault write database/config/mysql-geography \
   allowed_roles="*" \
   username="root" \
   password="password1"
+
+vault write database/config/mysql-authentication \
+  plugin_name=mysql-legacy-database-plugin \
+  connection_url="{{username}}:{{password}}@tcp(127.0.0.1:3306)/authentication" \
+  allowed_roles="*" \
+  username="root" \
+  password="password1"
 ```
 
 ## Create Database Role
 
-Create one or more roles containing user templates to generate users. For instance, one read-only and one read-write.
+Create Database Roles containing user templates to generate users. For instance, one read-only and one read-write.
 
 ```
 vault write database/roles/geography-all-privileges-accounts \
     db_name=mysql-geography \
     creation_statements="CREATE USER '{{name}}'@'%' IDENTIFIED BY '{{password}}';GRANT ALL ON geography.* TO '{{name}}'@'%';"
+
+vault write database/roles/authentication-all-privileges-accounts \
+    db_name=mysql-authentication \
+    creation_statements="CREATE USER '{{name}}'@'%' IDENTIFIED BY '{{password}}';GRANT ALL ON authentication.* TO '{{name}}'@'%';"
 ```
 
-## Dynamically Generate User Credentials
+## Test Dynamically Generated User Credentials
 
 Use the database role to dynamically generate a set of user credentials.
 ```
@@ -254,4 +291,6 @@ lease_duration     768h
 lease_renewable    true
 password           A1a-nvcb753HmF7JDPdi
 username           v-geog-LoE0Cn7rI
+
+$ vault read database/creds/authentication-all-privileges-accounts
 ```

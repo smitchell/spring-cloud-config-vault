@@ -23,12 +23,13 @@ security:
       accessTokenUri: http://localhost:9002/oauth/token
       userAuthorizationUri: http://localhost:9002/oauth/authorize
       clientId: proxy-client
-      clientSecret: client-secret
+      clientSecret: Vault Placeholder for security.oauth2.clientclientSecret
     resource:
       jwt:
         keyValue: security.oauth2.resource.jwt.keyValue Vault placeholder
 # cd ../vault
 # vault kv put secret/proxy-service security.oauth2.resource.jwt.keyValue=@jwt_rsa_public.key
+# vault read secret/proxy-service
 
 server:
   port: 9000

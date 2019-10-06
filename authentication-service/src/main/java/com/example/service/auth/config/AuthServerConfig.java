@@ -85,8 +85,6 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
     this.consumerService = consumerService;
     this.userService = userService;
     this.authenticationManager = authenticationConfiguration.getAuthenticationManager();
-    log.error("\n \n \n \n \n this.privateKey: \n " + this.privateKey);
-    log.error("\n \n \n \n \n this.publicKey: \n " + this.publicKey);
   }
 
   @Override

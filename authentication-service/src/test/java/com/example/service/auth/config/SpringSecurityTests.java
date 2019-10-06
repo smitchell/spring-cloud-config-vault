@@ -120,13 +120,13 @@ public class SpringSecurityTests {
   public void oauthToken() throws Exception {
     MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
     params.add("grant_type", "password");
-    params.add("client_id", "dummy-client");
-    params.add("client_secret", "client-secret");
+    params.add("client_id", "proxy-client");
+    params.add("client_secret", "bcN2?NrNF");
     params.add("username", "user");
     params.add("password", "password");
 
     MvcResult result = mockMvc.perform(post("/oauth/token")
-            .with(httpBasic("dummy-client", "client-secret"))
+            .with(httpBasic("proxy-client", "bcN2?NrNF"))
             .params(params))
             .andExpect(status().is2xxSuccessful())
             .andReturn();

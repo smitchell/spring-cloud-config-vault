@@ -6,12 +6,13 @@ security:
   oauth2:
     client:
       clientId: geography-client
-      clientSecret: client-secret
+      clientSecret: Placeholder for Vault security.oauth2.client.clientSecret
     resource:
       jwt:
         keyValue: security.oauth2.resource.jwt.keyValue Vault placeholder
 # cd ../vault
 # vault kv put secret/geography-service security.oauth2.resource.jwt.keyValue=@jwt_rsa_public.key
+# vault read secret/geography-service
 server:
   port: 9003
 

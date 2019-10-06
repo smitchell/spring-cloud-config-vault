@@ -1,12 +1,9 @@
-security:
-  basic:
-    enabled: false
-
-server:
-  port: 0
-
 spring:
+  application:
+    name: proxy-service
   cloud:
     config:
       enabled: false
       override-none: true
+    vault:
+      enabled: false

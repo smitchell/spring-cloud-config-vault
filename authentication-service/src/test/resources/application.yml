@@ -1,4 +1,3 @@
-testvalue: placeholder
 keyPair:
   # I generated this just for this example project
   # openssl genrsa -out jwt.pem 2048
@@ -54,10 +53,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:h2:mem:testdb;DB_CLOSE_ON_EXIT=FALSE;DB_CLOSE_DELAY=-1
-  cloud:
-    discovery:
-      enabled: false
+    url: jdbc:h2:mem:authentication;DB_CLOSE_ON_EXIT=FALSE;DB_CLOSE_DELAY=-1
   jpa:
     generate-ddl: true
     hibernate:
