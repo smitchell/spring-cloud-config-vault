@@ -49,8 +49,6 @@ If you chose to import ./ca.cert.pem into Java cacerts, then comment out the spr
 #        trust-store-password: changeit
 ```
 
-The projects can then then be run normally and will successful connect to Vault with TLS.
-
 ## Start the Server using the Config File
 
 Open a terminal, navigate to this project's /vault directory, and start Vault.
