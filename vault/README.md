@@ -18,7 +18,7 @@ This section covers starting vault for the first time
 
 This project runs Vault with a self-signed certificate created using scripts found in the Spring Cloud Vault GitHub project (https://github.com/spring-cloud/spring-cloud-vault) in src/test/bash/create_certificates.sh.
 
-Aside from the Vault binary that you installed at your $VAULT_HOME, this project contains a /vault directory located at [projects directory]/spring-cloud-config-vault/vault. The Authentication, Geography, and Proxy services each reference /vault/work/keystore.jks. In a non-Dev environment this could be on a Docker Volume, for instance, outside of source control. In Cloud Foundry there is https://docs.pivotal.io/spring-cloud-services/3-0/common/config-server/configuring-with-vault.html and https://github.com/pivotal-cf/spring-cloud-vault-connector to help with connectivity.
+Aside from the Vault binary that you installed at your $VAULT_HOME, this project contains a /vault directory located at [projects directory]/spring-cloud-config-vault/vault. The Authentication, Geography, and Proxy services each reference /vault/work/keystore.jks. In a non-Dev environment this could be on a Docker Volume, for instance, outside of source control. 
 
 A better option is to import the certificate into Java cacerts:
 1) Find the location of cacerts on your machine. On mine, it is $JAVA_HOME/lib/security/cacerts.
