@@ -1,12 +1,30 @@
-#Spring OAuth2 with SSO and Cloud Config, but no Eureka
+#Spring Cloud Config and Spring Vault
+
+This project demonstrates Spring Vault. It is still a work in progress. Stay tuned.
+
+## What Works
+* Dynamically generated database credentials sourced from Vault (auth and geography services)
+* JWT public and private keys stored in Vault (all projects)
+* OAuth client secret stored in Vault (geography and proxy service)
+
+## Known Issues
+Running Vault with TLS breaks the geography service, so TLS is disabled for now.
+
+## TODO
+* Encrypted secrets
+* Encryption as a service (e.g., encrypt a piece of PCI data, like SSN)
+* Convert the protected website to be a front-end for the Geography Service
+* Dynamic AWS credentials (I'll probably save for a dedicated AWS project)
 
 ## How to run this project locally
+
+Before you start, open the /vault subdirectory and follow the README for setting up Vault.
 
 ### Set the configuration service path
 
 That config-repo path is relative using the $PWD environment variable. If you are running
-this on Windows you'll need to fix this path for your operating system. The code
-snippet below is from the the config-service main application.yml.
+this on Windows you'll need to fix this path for your operating system. The YAML
+snippet below is from the the config-service main application.yml and was tested on OSX.
 
 ```
 spring:
@@ -17,20 +35,28 @@ spring:
           search-locations: file://${pwd}/../config-repo
 ```
 
-Also, the Config Service is running in native mode, which is only suitable for testing.
-Use a Git repository in non-Dev environments.
+As you can see, the Config Service is running in native mode, which is only suitable for testing.
+Use a Git repository for non-Dev environments.
 
-### Start the Authentication Server
-1) cd ./spring-oauth2-sso-config-no-eureka/authentication-service
+### Start the Config Service
+1) cd ./spring-cloud-config-vault/config-service
+2) mvn spring-boot:run
+
+### Start the Authentication Service
+1) cd ./spring-cloud-config-vault/authentication-service
+2) mvn spring-boot:run
+
+### Start the Geography Server
+1) cd ./spring-cloud-config-vault/geography-service
 2) mvn spring-boot:run
 
 ### Start the Protected Web site
-1) cd ./spring-oauth2-sso-config-no-eureka/protected-web-site
+1) cd ./spring-cloud-config-vault/protected-web-site
 2) npm install
 3) ng serve --baseHref=/protected-web-site/ --port=9001
 
 ### Start the Zuul Proxy
-1) /spring-oauth2-sso-config-no-eureka/proxy-service
+1) /spring-cloud-config-vault/proxy-service
 2) mvn spring-boot:run
 
 
