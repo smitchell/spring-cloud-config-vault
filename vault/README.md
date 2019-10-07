@@ -235,3 +235,5 @@ Use the new database role to dynamically generate user credentials.
 vault read database/creds/geography-all-privileges-accounts
 vault read database/creds/authentication-all-privileges-accounts
 ```
+## SETUP COMPLETE
+You are done setting up Vault. Return to the spring-cloud-config-vault/README.md file.
