@@ -9,5 +9,5 @@ spring:
         role: geography-all-privileges-accounts
       uri: https://localhost:8200
       ssl:
-        trust-store: classpath:/keystore.jks
+        trust-store: file:../vault/work/keystore.jks
         trust-store-password: changeit

@@ -16,7 +16,7 @@ spring:
       config:
         order: -10
       ssl:
-        trust-store: classpath:/keystore.jks
+        trust-store: file:../vault/work/keystore.jks
         trust-store-password: changeit
 #  Be sure to put secrets in vault per ../vault/README.md
 #  vault kv put secret/geography-service \
