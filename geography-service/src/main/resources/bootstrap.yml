@@ -4,7 +4,7 @@ spring:
   cloud:
     vault:
       token: 00000000-0000-0000-0000-000000000000
-      uri: http://localhost:8200
+      uri: https://localhost:8200
       connection-timeout: 5000
       database:
         enabled: true
@@ -15,9 +15,9 @@ spring:
       read-timeout: 15000
       config:
         order: -10
-#      ssl:
-#        trust-store: classpath:/keystore.jks
-#        trust-store-password: changeit
+      ssl:
+        trust-store: classpath:/keystore.jks
+        trust-store-password: changeit
 #  Be sure to put secrets in vault per ../vault/README.md
 #  vault kv put secret/geography-service \
 #  security.oauth2.resource.jwt.keyValue=@jwt_rsa_public.key \

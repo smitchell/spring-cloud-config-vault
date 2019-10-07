@@ -16,7 +16,7 @@ This section covers starting vault for the first time
 
 ## Self-signed Certificates
 
-This project should run Vault with a self-signed certificate created using scripts found in the Spring Cloud Vault GitHub project (https://github.com/spring-cloud/spring-cloud-vault) in src/test/bash/create_certificates.sh. Unfortunately, I ran into problems, so it is running over HTTP.
+This project runs Vault with a self-signed certificate created using scripts found in the Spring Cloud Vault GitHub project (https://github.com/spring-cloud/spring-cloud-vault) in src/test/bash/create_certificates.sh.
 
 ## Start the Server using the Config File
 
@@ -25,19 +25,12 @@ Open a terminal, navigate to this project's /vault directory, and start Vault.
 cd [projects directory]/spring-cloud-config-vault/vault
 vault server -config ./vault-config.hcl
 ```
-If you want try TLS run "vault server -config ./vault-config-tls.hcl"
 
 ## Initialize Vault
 
-Open a second terminal, change to the directory [projects directory]/spring-cloud-config-vault/vault, then export the environment variables shown below, with or without TLS depending on the ".hcl" file you used above.
+Open a second terminal, change to the directory [projects directory]/spring-cloud-config-vault/vault, then export the environment variables shown below.
 
-### Setup without TLS
-```
-export VAULT_ADDR=http://localhost:8200
-export VAULT_SKIP_VERIFY=false
-```
-
-### Setup with TLS
+### Set the Environment Variables
 ```
 export VAULT_ADDR=https://localhost:8200
 export VAULT_SKIP_VERIFY=false
@@ -50,41 +43,45 @@ vault operator init
 
 Your output will look like this *SAVE A COPY OF YOUR KEYS AND ROOT TOKEN*.
 ```
-Unseal Key 1: cNnFyloC4HcRuQY0YgumFFmXzKZGD1zxPMa+PTyPC1rI
-Unseal Key 2: wsi8Gb8o7iS6Lecq9vxuJNG94TAqgq8fhZ0AAFZbgEpy
-Unseal Key 3: AmSgIQXQoOvEg4seqgJfnqdt8/Z4pAKluY2YhHeiunX7
-Unseal Key 4: J90vt/b+uUiVuyrJ1WxT3ms/J5kVtWCziZiL+GTMEVfe
-Unseal Key 5: +/bN44FFbXRNGdDIc/TkiunauMth+ERqyMXnAyPZmfHr
+Unseal Key 1: SUibnGmk9UtB8a98DHqBbWulj+4Phs0jVa42h/H6zSwY
+Unseal Key 2: 2P5Z3sC/YwGqrWAY8OXAgNElD5NzlWF1RMc4y57GH7hg
+Unseal Key 3: 07PbsKZLVzPNAUj2V69JFPc0t6ehWXL65NI5/9I6nqwn
+Unseal Key 4: VPN6jIIrLEE+/QhHxe+J5hhQWqFiQkg5/yT7EBeQMghS
+Unseal Key 5: zcBc/8tfl2YjVANUsoB7ZGF7rEzusnlb0w9AuuVConjq
 
-Initial Root Token: s.O7KR9Wk2DsVDKhR6b0mLeP0q
+Initial Root Token: s.us3mV4cMPRKqDO6z1rAvDjtM
 
-Vault initialized with 5 key shares and a key threshold of 3. Please securely distribute the key shares printed above. When the Vault is re-sealed, restarted, or stopped, you must supply at least 3 of these keys to unseal it before it can start servicing requests.
+Vault initialized with 5 key shares and a key threshold of 3. Please securely
+distribute the key shares printed above. When the Vault is re-sealed,
+restarted, or stopped, you must supply at least 3 of these keys to unseal it
+before it can start servicing requests.
 
 Vault does not store the generated master key. Without at least 3 key to
 reconstruct the master key, Vault will remain permanently sealed!
 
-It is possible to generate new unseal keys, provided you have a quorum of existing unseal keys shares. See "vault operator rekey" for more information.
+It is possible to generate new unseal keys, provided you have a quorum of
+existing unseal keys shares. See "vault operator rekey" for more information.
 ```
 
 ## Export the Root Token
 Vault commands that require authentication use the environment variable VAULT_TOKEN. Export the token emitted to the console when you initialized Vault.
 ```
-export VAULT_TOKEN=s.O7KR9Wk2DsVDKhR6b0mLeP0q
+export VAULT_TOKEN=s.us3mV4cMPRKqDO6z1rAvDjtM
 ```
 
 ## Unseal Vault
 Use any three of the keys to unseal vault.
 ```
-vault operator unseal cNnFyloC4HcRuQY0YgumFFmXzKZGD1zxPMa+PTyPC1rI
-vault operator unseal AmSgIQXQoOvEg4seqgJfnqdt8/Z4pAKluY2YhHeiunX7
-vault operator unseal wsi8Gb8o7iS6Lecq9vxuJNG94TAqgq8fhZ0AAFZbgEpy
+vault operator unseal SUibnGmk9UtB8a98DHqBbWulj+4Phs0jVa42h/H6zSwY
+vault operator unseal 07PbsKZLVzPNAUj2V69JFPc0t6ehWXL65NI5/9I6nqwn
+vault operator unseal zcBc/8tfl2YjVANUsoB7ZGF7rEzusnlb0w9AuuVConjq
 ```
 
 # Create a Token to use with Spring Vault
 
 Tokens can be used to partition secrets. In the example, we use the same token for all the services, but you could create separate tokens for each microservice. In the event that an intruder got ahold of the Vault SSL Cert and a token, they could not access the secrets of other microservice. Of course, for a partitioning strategy you wouldn't use a policy of "root." See the documentation on Policies for more details: https://www.vaultproject.io/docs/concepts/policies.html.
 ```
-$vault token create -id="00000000-0000-0000-0000-000000000000" -policy="root"
+vault token create -id="00000000-0000-0000-0000-000000000000" -policy="root"
 ```
 
 Export the new token:

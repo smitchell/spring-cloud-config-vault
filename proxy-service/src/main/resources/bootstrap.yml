@@ -3,15 +3,15 @@ spring:
     name: proxy-service
   cloud:
     vault:
-      uri: http://localhost:8200
+      token: 00000000-0000-0000-0000-000000000000
+      uri: https://localhost:8200
       connection-timeout: 5000
       read-timeout: 15000
       config:
         order: -10
-#      ssl:
-#        trust-store: classpath:/keystore.jks
-#        trust-store-password: changeit
-      token: 00000000-0000-0000-0000-000000000000
+      ssl:
+        trust-store: classpath:/keystore.jks
+        trust-store-password: changeit
 #  Be sure to put secrets in vault per ../vault/README.md
 #  vault kv put secret/proxy-service \
 #  security.oauth2.resource.jwt.keyValue=@jwt_rsa_public.key \
