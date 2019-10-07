@@ -1,4 +1,4 @@
-#Spring Cloud Config and Spring Vault
+# Spring Cloud Config and Spring Vault
 
 This project demonstrates Spring Vault. It is still a work in progress. Stay tuned.
 
