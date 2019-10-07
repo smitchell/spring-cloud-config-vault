@@ -1,3 +1,7 @@
+#  Be sure to put secrets in vault per ../vault/README.md
+#  vault kv put secret/geography-service \
+#  security.oauth2.resource.jwt.keyValue=@jwt_rsa_public.key \
+#  security.oauth2.client.clientSecret="bcN2?NrNF"
 spring:
   application:
     name: geography-service
@@ -15,10 +19,7 @@ spring:
       read-timeout: 15000
       config:
         order: -10
+      # Comment out the spring.cloud.vault.ssl block if you import ca.cert.pem into $JAVA_HOME/lib/security/cacerts
       ssl:
         trust-store: file:../vault/work/keystore.jks
         trust-store-password: changeit
-#  Be sure to put secrets in vault per ../vault/README.md
-#  vault kv put secret/geography-service \
-#  security.oauth2.resource.jwt.keyValue=@jwt_rsa_public.key \
-#  security.oauth2.client.clientSecret="bcN2?NrNF"

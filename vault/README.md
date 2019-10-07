@@ -18,7 +18,38 @@ This section covers starting vault for the first time
 
 This project runs Vault with a self-signed certificate created using scripts found in the Spring Cloud Vault GitHub project (https://github.com/spring-cloud/spring-cloud-vault) in src/test/bash/create_certificates.sh.
 
-Aside from the Vault binary you install at your $VAULT_HOME, this project contains a /vault directory located at [projects directory]/spring-cloud-config-vault/vault. Authentication Service, Geography Service, and Proxy Service each reference /vault/work/keystore.jks. In a non-Dev environment this could be on a Docker Volume, for instance, outside of source control. In Cloud Foundry there is https://docs.pivotal.io/spring-cloud-services/3-0/common/config-server/configuring-with-vault.html and https://github.com/pivotal-cf/spring-cloud-vault-connector to help with connectivity. 
+Aside from the Vault binary you install at your $VAULT_HOME, this project contains a /vault directory located at [projects directory]/spring-cloud-config-vault/vault. The Authentication, Geography, and Proxy services each reference /vault/work/keystore.jks. In a non-Dev environment this could be on a Docker Volume, for instance, outside of source control. In Cloud Foundry there is https://docs.pivotal.io/spring-cloud-services/3-0/common/config-server/configuring-with-vault.html and https://github.com/pivotal-cf/spring-cloud-vault-connector to help with connectivity.
+
+A better option is to import the certificate into Java cacerts:
+1) Find the location of cacerts on your machine. On mine, it is $JAVA_HOME/lib/security/cacerts.
+2) Backup your cacerts file.
+3) Navigate to the directory spring-cloud-config-vault/vault/work/ca/certs
+4) Import the ca.cert.pem as shown below using the password "changeit"
+```
+$ sudo keytool -importcert -alias dev -file ./ca.cert.pem -keystore $JAVA_HOME/lib/security/cacerts
+
+Warning: use -cacerts option to access cacerts keystore
+Enter keystore password:
+Owner: CN=CA Certificate, O=spring-cloud-vault-config, L=Unknown, ST=Unknown, C=NN
+...
+Trust this certificate? [no]:  yes
+Certificate was added to keystore
+```
+
+If you chose to import ./ca.cert.pem into Java cacerts, then comment out the spring.cloud.vault.ssl block in each project bootstrap.yml file:
+1) /spring-cloud-config-vault/authentication-service/src/main/src/main/resources/bootstrap.yml
+2) /spring-cloud-config-vault/config-service/src/main/src/main/resources/bootstrap.yml
+3) /spring-cloud-config-vault/geography-service/src/main/src/main/resources/bootstrap.yml
+4) /spring-cloud-config-vault/proxy-service/src/main/src/main/resources/bootstrap.yml
+
+```
+# Comment out the spring.cloud.vault.ssl block if you import ca.cert.pem into $JAVA_HOME/lib/security/cacerts
+#      ssl:
+#        trust-store: file:../vault/work/keystore.jks
+#        trust-store-password: changeit
+```
+
+The projects can then then be run normally and will successful connect to Vault with TLS.
 
 ## Start the Server using the Config File
 

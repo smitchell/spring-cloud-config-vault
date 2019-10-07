@@ -8,6 +8,7 @@ spring:
         enabled: true
         role: geography-all-privileges-accounts
       uri: https://localhost:8200
+      # Comment out the spring.cloud.vault.ssl block if you import ca.cert.pem into $JAVA_HOME/lib/security/cacerts
       ssl:
         trust-store: file:../vault/work/keystore.jks
         trust-store-password: changeit

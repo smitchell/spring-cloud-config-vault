@@ -1,3 +1,8 @@
+#  Be sure to put secrets in vault per ../vault/README.md
+#  vault kv put \
+#  secret/authentication-service \
+#  keyPair.private-key=@jwt_rsa_private.key \
+#  keyPair.public-key=@jwt_rsa_public.key
 spring:
   application:
     name: authentication-service
@@ -15,11 +20,7 @@ spring:
       read-timeout: 15000
       config:
         order: -10
+      # Comment out the spring.cloud.vault.ssl block if you import ca.cert.pem into $JAVA_HOME/lib/security/cacerts
       ssl:
         trust-store: file:../vault/work/keystore.jks
         trust-store-password: changeit
-#  Be sure to put secrets in vault per ../vault/README.md
-#  vault kv put \
-#  secret/authentication-service \
-#  keyPair.private-key=@jwt_rsa_private.key \
-#  keyPair.public-key=@jwt_rsa_public.key
