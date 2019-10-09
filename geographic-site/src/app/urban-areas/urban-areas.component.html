@@ -1,0 +1,33 @@
+<app-header></app-header>
+<h2>U.S. Urban Areas</h2>
+<mat-toolbar>
+  <span>Urban Areas</span>
+</mat-toolbar>
+<table *ngIf="urbanAreas && urbanAreas.length > 0" mat-table [dataSource]="urbanAreas"  class="mat-elevation-z8">
+  <ng-container matColumnDef="geoId">
+    <th mat-header-cell *matHeaderCellDef> Geo ID </th>
+    <td mat-cell *matCellDef="let element"> {{element.geoId}} </td>
+  </ng-container>
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef> Name </th>
+    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+  </ng-container>
+  <ng-container matColumnDef="areaLand">
+    <th mat-header-cell *matHeaderCellDef> Land Area </th>
+    <td mat-cell *matCellDef="let element"> {{element.areaLand}} </td>
+  </ng-container>
+  <ng-container matColumnDef="areaWater">
+    <th mat-header-cell *matHeaderCellDef> Water Area </th>
+    <td mat-cell *matCellDef="let element"> {{element.areaWater}} </td>
+  </ng-container>
+  <ng-container matColumnDef="landSqMiles">
+    <th mat-header-cell *matHeaderCellDef> Land sq mi </th>
+    <td mat-cell *matCellDef="let element"> {{element.landSqMiles}} </td>
+  </ng-container>
+  <ng-container matColumnDef="waterSqMiles">
+    <th mat-header-cell *matHeaderCellDef> Water sq mi </th>
+    <td mat-cell *matCellDef="let element"> {{element.waterSqMiles}} </td>
+  </ng-container>
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
