@@ -56,7 +56,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .and()
         .logout()
             .invalidateHttpSession(true)
-            .logoutSuccessUrl("http://localhost:9000/protected-web-site/")
+            .logoutSuccessUrl("http://localhost:9000/geographic-site/")
             .permitAll()
             .and()
         .csrf()

@@ -9,13 +9,16 @@ zuul:
   ignored-services: "*"
   routes:
     protected-site:
-      path: /protected-web-site/**
-      url: http://localhost:9001/protected-web-site/
+      path: /geography-site/**
+      url: http://localhost:9001/geography-site/
     authorization-service:
-      path: /authorization-server/**
-      url: http://localhost:9002/authorization-service
+      path: /authorization-service/**
+      url: http://localhost:9002
       sensitiveHeaders: Authorization
       stripPrefix: false
+    geography-service:
+      path: /geography-service/**
+      url: http://localhost:9003
 
 security:
   oauth2:
