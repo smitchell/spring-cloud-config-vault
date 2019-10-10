@@ -34,6 +34,6 @@ export class GeographyService {
   urbanAreas(page: number, size: number): Observable<any> {
     const url = this.geographyServiceUrl + '/urbanAreas?page=' + page + '&size=' + size + '&sort=name&name.dir=asc' ;
     return this.http
-      .get(url, GeographyService.getStdOptions());
+        .get(url, GeographyService.getStdOptions());
   }
 }
