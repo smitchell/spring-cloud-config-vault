@@ -103,7 +103,9 @@ public class IntegrationTest {
                 .andDo(print())
                 .andExpect(status().isCreated());
 
-        mockMvc.perform(get("/urbanAreas"))
+        mockMvc.perform(get("/urbanAreas")
+                .param("sort", "name")
+                .param("name.dir", "asc"))
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(
                         header().string(HttpHeaders.CONTENT_TYPE, MediaTypes.HAL_JSON_VALUE + ";charset=UTF-8"))
@@ -125,6 +127,8 @@ public class IntegrationTest {
         mockMvc.perform(get("/urbanAreas")
                 .param("page", "0")
                 .param("limit", "50")
+                .param("sort", "name")
+                .param("name.dir", "asc")
                 .accept("application/json;charset=UTF-8"))
                 .andDo(print())
                 .andExpect(status().isOk())
