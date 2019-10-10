@@ -115,6 +115,33 @@ public class IntegrationTest {
     }
 
     @Test
+    public void testFindByNameLikeOrderByNameAsc() throws Exception {
+        UrbanArea urbanArea = UrbanAreaFactory.build();
+        String json = new ObjectMapper().writeValueAsString(urbanArea);
+        mockMvc.perform(post("/urbanAreas")
+                .contentType("application/json;charset=UTF-8")
+                .content(json))
+                .andDo(print())
+                .andExpect(status().isCreated());
+
+        String searchTerm = "%" + urbanArea.getName().substring(4, urbanArea.getName().length()-4) + "%";
+
+        mockMvc.perform(get("/urbanAreas/search/findByNameLikeOrderByNameAsc")
+                .param("searchTerm", searchTerm)
+                .param("page", "0")
+                .param("limit", "50")
+                .param("sort", "name")
+                .param("name.dir", "asc")
+                .accept("application/json;charset=UTF-8"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json;charset=UTF-8"))
+                .andExpect(jsonPath("$._embedded.urbanAreas[0].name").value(urbanArea.getName()))
+                .andExpect(
+                        header().string(HttpHeaders.CONTENT_TYPE,  "application/json;charset=UTF-8"));
+    }
+
+    @Test
     public void testPageUrbanAreas() throws Exception {
         UrbanArea urbanArea = UrbanAreaFactory.build();
         String json = new ObjectMapper().writeValueAsString(urbanArea);

@@ -1,0 +1,59 @@
+
+table {
+  text-align: center !important;
+  width: 100%;
+}
+
+.mat-header-cell {
+  text-align: center;
+}
+
+.mat-table__wrapper .mat-table {
+  min-width: auto !important;
+  width: 100% !important;
+}
+
+.mat-header-row {
+  width: 100%;
+}
+
+.mat-row {
+  width: 100%;
+}
+
+.center-align.mat-header-cell {
+  display: flex !important;
+  justify-content: center !important;
+  padding-left: 18px !important;
+}
+
+.center-align.mat-footer-cell {
+  display: flex !important;
+  justify-content: center !important;
+}
+
+.center-align.mat-cell {
+  display: flex !important;
+  justify-content: center !important;
+}
+
+.left-align.mat-header-cell {
+  padding-right: 18px !important;
+}
+
+.fill-remaining-space {
+  /* This fills the remaining space, by using flexbox.
+     Every toolbar row uses a flexbox row layout. */
+  flex: 1 1 auto;
+}
+
+.search-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.search-form-full-width {
+  width: 100%;
+}
+

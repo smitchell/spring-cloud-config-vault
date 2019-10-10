@@ -45,8 +45,8 @@ public class ConsumerService implements ClientDetailsService {
       consumer.setScopeCsv("read,write,trust");
       consumer.setAutoApproveCsv("true");
       consumer.setAuthorizedGrantTypesCsv("password,refresh_token,authorization_code");
-      consumer.setAccessTokenValiditySeconds(100);
-      consumer.setRefreshTokenValiditySeconds(100);
+      consumer.setAccessTokenValiditySeconds(3600);
+      consumer.setRefreshTokenValiditySeconds(3600);
       consumer.setRegisteredRedirectUrisCsv("http://localhost:9000/login,");
       consumer.setClientSecret(new BCryptPasswordEncoder().encode(clientSecret));
       consumerRepository.save(consumer);

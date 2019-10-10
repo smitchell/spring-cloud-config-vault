@@ -36,4 +36,13 @@ export class GeographyService {
     return this.http
         .get(url, GeographyService.getStdOptions());
   }
+
+  searchUrbanAreasByName(keyword: string, page: number, size: number): Observable<any> {
+    const searchTerm = encodeURI('%' + keyword + '%');
+    console.log(searchTerm);
+    const url = this.geographyServiceUrl + '/urbanAreas/search/findByNameLikeOrderByNameAsc?page='
+        + page + '&size=' + size + '&searchTerm=' + searchTerm + '&sort=name&name.dir=asc';
+    return this.http
+        .get(url, GeographyService.getStdOptions());
+  }
 }

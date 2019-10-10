@@ -137,8 +137,10 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
   public DefaultTokenServices tokenServices(final TokenStore tokenStore,
       final ClientDetailsService clientDetailsService) {
     DefaultTokenServices tokenServices = new DefaultTokenServices();
+    tokenServices.setReuseRefreshToken(true);
     tokenServices.setSupportRefreshToken(true);
     tokenServices.setTokenStore(tokenStore);
+    tokenServices.setAccessTokenValiditySeconds(3600);
     tokenServices.setClientDetailsService(clientDetailsService);
     tokenServices.setAuthenticationManager(this.authenticationManager);
     return tokenServices;

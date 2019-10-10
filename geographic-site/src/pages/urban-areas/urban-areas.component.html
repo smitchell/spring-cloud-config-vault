@@ -1,7 +1,17 @@
 <app-header></app-header>
 <h2>U.S. Urban Areas</h2>
-<mat-toolbar>
-  <span>Urban Areas</span>
+<mat-toolbar class="md-toolbar-tools">
+  <span class="fill-remaining-space">
+  <mat-form-field class="search-full-width">
+    <input class="form-control" id="searchKeyword" type="text" style="padding-top: 20px"
+           name="searchInput"
+           [(ngModel)]="keyword" (ngModelChange)="this.userSearchUpdate.next($event)" matInput placeholder="Search name..." >
+  </mat-form-field>
+  </span>
+
+  <span>
+    <mat-icon>search</mat-icon>
+  </span>
 </mat-toolbar>
 <table *ngIf="urbanAreas && urbanAreas.length > 0" mat-table [dataSource]="urbanAreas"  class="mat-elevation-z8">
   <ng-container matColumnDef="geoId">
@@ -31,4 +41,10 @@
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
-<mat-paginator (page)="pageChanged($event)" [length]="totalElements" [pageSize]="size" [pageSizeOptions]="[10, 25, 50]" ></mat-paginator>
+<mat-paginator *ngIf="totalPages > 1"
+                (page)="pageChanged($event)"
+               [showFirstLastButtons]="true"
+               [length]="totalElements"
+               [pageSize]="size"
+               [pageSizeOptions]="[7, 15, 25, 50]"
+              ></mat-paginator>
