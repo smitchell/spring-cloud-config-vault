@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { Observable } from 'rxjs';
-import {UrbanArea} from '../../models/urban-area';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +8,7 @@ import {UrbanArea} from '../../models/urban-area';
 export class GeographyService {
 
   private host = 'http://localhost:9000';
-  private geographyServiceUrl = this.host + '/geography-service/';
+  private geographyServiceUrl = this.host + '/geography-service';
 
   constructor(private http: HttpClient) {
   }
@@ -32,9 +31,8 @@ export class GeographyService {
       .get(url, GeographyService.getStdOptions());
   }
 
-  urbanAreas(): Observable<any> {
-    const url = this.geographyServiceUrl;
-    console.log('urbanAreas URL: ' + url);
+  urbanAreas(page: number, size: number): Observable<any> {
+    const url = this.geographyServiceUrl + '/urbanAreas?page=' + page + '&size=' + size + '&sort=name&name.dir=asc' ;
     return this.http
       .get(url, GeographyService.getStdOptions());
   }
