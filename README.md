@@ -7,6 +7,9 @@ This project demonstrates Spring Vault. It is still a work in progress. Stay tun
 * JWT public and private keys stored in Vault (all projects)
 * OAuth client secret stored in Vault (geography and proxy service)
 
+## Known Issues
+* API OAuth tokens expire too quickly. If you see a 401 in the Javascript console, logout and log back in.
+
 ## TODO
 * Encrypted secrets
 * Encryption as a service (e.g., encrypt a piece of PCI data, like SSN)
